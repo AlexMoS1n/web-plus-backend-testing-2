@@ -20,13 +20,28 @@ describe('PostsService', () => {
     });
 
     it('should return all posts if called without options', () => {
-      // реализуйте тест-кейс
+      const allPosts = postsService.findMany();
+      const expectedPosts = allPosts.map(item => {
+        return { text: item.text }
+      })
+      expect(expectedPosts).toEqual(posts)
     });
 
     it('should return correct posts for skip and limit options', () => {
-      // реализуйте тест-кейс
+      const allPosts = postsService.findMany({ limit: 3, skip: 1 });
+      const expectedPosts = allPosts.map(item => {
+        return { text: item.text }
+      })
+
+      expect(expectedPosts).toEqual([posts[1], posts[2], posts[3]])
     });
 
-    // реализуйте недостающие тест-кейсы
+    it('should return correct posts for limit options', () => {
+      expect(postsService.findMany({ limit: 1 })).toContainEqual(expect.objectContaining(posts[0]))
+    });
+
+    it('should return correct find posts', () => {
+      expect(postsService.find('1')).toMatchObject(posts[0])
+    });
   });
 });
